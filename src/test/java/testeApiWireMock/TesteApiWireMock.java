@@ -34,4 +34,19 @@ public class TesteApiWireMock {
 				.body(Matchers.equalTo("Usuario cadastrado com sucesso!"));
 
 }
+
+	@Test
+	public void testeWireMockDelete() {
+		stubFor(delete("/api/teste").withHeader("Content-Type", containing("json")).willReturn(
+				ok()
+				.withHeader("Content-Type", "application/json")
+				.withBody("Usuario apagado com sucesso!")));
+
+		RestAssured.given().header("Content-Type", "application/json")
+		.when()
+		.delete("http://localhost:8089/api/teste")
+				.then().assertThat().log().all()
+				.body(Matchers.equalTo("Usuario apagado com sucesso!"));
+
+	}
 	}
